@@ -21,18 +21,6 @@ function Hashset(hashFunction) {
   this.clear();
 }
 
-function makeIterator(array){
-  var nextIndex = 0;
-
-  return {
-    next: function(){
-      return nextIndex < array.length ?
-      {value: array[nextIndex++], done: false} :
-      {done: true};
-    }
-  }
-}
-
 Hashset.prototype = {
   /**
    * @param {Object} value
@@ -42,23 +30,20 @@ Hashset.prototype = {
     var r = !this.has(value);
     if (r) {
       //does not contain
-      this.values[this.hashFn(value)] = value;
+      this._hashObject[this.hashFn(value)] = value;
       this.length++;
     }
     return r;
   },
-  addMany: function addMany(values) {
-    values.forEach(this.add);
-  },
   keys: function keys() {
-    return makeIterator();
+    return Object.keys(this._hashObject);
   },
   /**
    *
    * @param {Array} arr
    * @returns {Number} count of items in the set after all items in the array have been added
    */
-  fromArray: function(arr) {
+  addMany: function(arr) {
     var i = arr.length;
     while(i--) {
       this.add(arr[i]);
@@ -69,7 +54,7 @@ Hashset.prototype = {
    * set will be left empty
    */
   clear: function() {
-    this.values = {};
+    this._hashObject = {};
     this.length = 0;
   },
   /**
@@ -86,7 +71,7 @@ Hashset.prototype = {
    * @returns {*} stored value or undefined if the hash did not found anything
    */
   getValue: function getValue(hash) {
-    return this.values[hash];
+    return this._hashObject[hash];
   },
   /**
    * @param {*} valueOrKey either hash or an object
@@ -96,9 +81,9 @@ Hashset.prototype = {
     if (this.has(valueOrKey)) {
       // does contain
       if (typeof valueOrKey === 'object') {
-        delete this.values[this.hashFn(valueOrKey)];
+        delete this._hashObject[this.hashFn(valueOrKey)];
       } else {
-        delete this.values[valueOrKey];
+        delete this._hashObject[valueOrKey];
       }
       this.length--;
       return true;
@@ -112,9 +97,9 @@ Hashset.prototype = {
    */
   has: function has(valueOrKey) {
     if (typeof valueOrKey === 'object') {
-      return this.values[this.hashFn(valueOrKey)] !== undefined;
+      return this._hashObject[this.hashFn(valueOrKey)] !== undefined;
     } else {
-      return this.values[valueOrKey] !== undefined;
+      return this._hashObject[valueOrKey] !== undefined;
     }
   },
   /**
@@ -129,11 +114,11 @@ Hashset.prototype = {
    * @param {*} [thisObj] this context for iterator
    */
   each: function each(iteratorFunction, thisObj) {
-    var keys = Object.keys(this.values).reverse();
+    var keys = Object.keys(this._hashObject).reverse();
     var item;
     while(item = keys.pop()) {
-      var contx = thisObj || this.values[item];
-      iteratorFunction.call(contx, this.values[item]);
+      var contx = thisObj || this._hashObject[item];
+      iteratorFunction.call(contx, this._hashObject[item]);
     }
   },
   /**
@@ -141,18 +126,24 @@ Hashset.prototype = {
    */
   toArray: function () {
     var r = [];
-    for(var i in this.values){
-      r.push(this.values[i]);
+    for(var i in this._hashObject){
+      r.push(this._hashObject[i]);
     }
     return r;
   },
   /**
-   * @returns {Array} of filtered items
+   * @returns {Hashset} of filtered items
    */
-  filter: function() {
-    var arr =  this.toArray();
-    return arr.filter.apply(arr, arguments);
+  filter: function(predicate) {
+    var result = new Hashset(this.hashFn);
+    this.each(function(item) {
+      if (predicate(item)) {
+        result.add(item);
+      }
+    });
+    return result;
   }
 };
+Hashset.prototype.values = Hashset.prototype.toArray; //alias
 
 module.exports = Hashset;
