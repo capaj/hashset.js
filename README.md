@@ -1,4 +1,4 @@
-# hashset.js
+# hashset.js [![Build Status](https://travis-ci.org/capaj/hashset.js.svg?branch=master)](https://travis-ci.org/capaj/hashset.js)
 simple hashset implementation aimed to working with DB entries on frontend. If it has primary keys, storing it in a hashset is probably a good idea.
 
 ##Installation
