@@ -39,11 +39,10 @@ Hashset.prototype = {
     return Object.keys(this._hashObject);
   },
   /**
-   *
    * @param {Array} arr
    * @returns {Number} count of items in the set after all items in the array have been added
    */
-  addMany: function(arr) {
+  addArray: function(arr) {
     var i = arr.length;
     while(i--) {
       this.add(arr[i]);
@@ -65,6 +64,17 @@ Hashset.prototype = {
     var r = this.delete(value);
     this.add(value);
     return r;
+  },
+  /**
+   * @param {Array} arr
+   * @returns {Number} count of items in the set after all items in the array have been upserted
+   */
+  upsertArray: function(arr) {
+    var i = arr.length;
+    while(i--) {
+      this.upsert(arr[i]);
+    }
+    return this.length;
   },
   /**
    * @param {String} hash

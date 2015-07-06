@@ -27,27 +27,33 @@ describe('Hashset', function() {
     aSet.getValue(1).prop.should.eql('b');
   });
 
+  it('should upsert all items in an array', function(){
+    aSet.add(sampleObject);
+    aSet.upsertArray([{id: 1, prop: 'c'}, sampleObject2]).should.eql(2);
+    aSet.getValue(1).prop.should.eql('c');
+  });
+
   it('should throw when creating a hashset without a hashfunction', function() {
     (function() {
       new Hashset();
     }).should.throw('hashFunction is required argument');
   });
 
-  describe('addMany', function() {
+  describe('addArray', function() {
     it('should allow to add items in an array', function() {
-      aSet.addMany([sampleObject, sampleObject2]).should.eql(2);
+      aSet.addArray([sampleObject, sampleObject2]).should.eql(2);
       aSet.getValue(1).should.eql(sampleObject);
     });
 
     it('should skip duplicates', function(){
-      aSet.addMany([sampleObject, sampleObject2, sampleObject2]).should.eql(2);
+      aSet.addArray([sampleObject, sampleObject2, sampleObject2]).should.eql(2);
       aSet.getValue(2).should.eql(sampleObject2);
     });
   });
 
 
   it('should allow to filter the items', function(){
-    aSet.addMany([sampleObject, sampleObject2]);
+    aSet.addArray([sampleObject, sampleObject2]);
     filteredSet = aSet.filter(function (item){
         return item.prop === 'b';
     });
@@ -86,7 +92,7 @@ describe('Hashset', function() {
   it('should iterate values with "each" method', function(){
     var ar = [];
     var from = [sampleObject, sampleObject2];
-    aSet.addMany(from);
+    aSet.addArray(from);
     aSet.each(function(item) {
       ar.push(item);
     });
@@ -94,13 +100,13 @@ describe('Hashset', function() {
   });
   
   it('should give all keys', function(){
-    aSet.addMany([sampleObject, sampleObject2]);
+    aSet.addArray([sampleObject, sampleObject2]);
     aSet.keys().should.eql(['1','2']);
   });
 
   it('should give all values', function(){
     var from = [sampleObject, sampleObject2];
-    aSet.addMany(from);
+    aSet.addArray(from);
     aSet.values().should.eql(from);
     aSet.toArray().should.eql(from);
   });

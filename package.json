@@ -1,6 +1,6 @@
 {
   "name": "hashset.js",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "simple hashset implementation aimed to working with DB entries on frontend. If it has primary keys, storing it in a hashset is probably a good idea.",
   "main": "hashset.js",
   "directories": {

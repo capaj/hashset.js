@@ -23,15 +23,16 @@ new Hashset(hashFunction) //returns new instance of a Hashset
 
 Methods
 ```
-add(value) ? {boolean}
-addMany(arr) ? {Number}
+add(value) returns {boolean}
+addMany(arr) returns {Number}
 clear()
-delete(valueOrKey) ? {boolean}
+delete(valueOrKey) returns {boolean}
 each(iteratorFunction, thisObjopt)
-filter() ? {Hashset}
-getValue(hash) ? {*}
-has(valueOrKey) ? {boolean}
-size() ? {number}
-toArray() ? {Array}
-upsert(value) ? {boolean}
+filter() returns {Hashset}
+getValue(hash) returns {*}
+has(valueOrKey) returns {boolean}
+size() returns {number}
+toArray() returns {Array}
+upsert(value) returns {boolean}
+upsertArray(arr) returns {Number}
 ```
