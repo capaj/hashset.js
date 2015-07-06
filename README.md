@@ -14,8 +14,12 @@ Because it is not suited for working with DB objects, such as objects returned f
 With the API I tried to shadow ES6 Set, so it should feel almost as if you were working with the native Set implementation.
 
 Hashset
-new Hashset(hashFunction)
-return new instance of a Hashset
+```
+var hashFunction = '_id';
+//or your hashFunction can be an actual function
+var hashFunction = function(item){return item.a+item.b};
+new Hashset(hashFunction) //returns new instance of a Hashset
+```
 
 Methods
 ```
