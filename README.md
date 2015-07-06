@@ -18,6 +18,7 @@ new Hashset(hashFunction)
 return new instance of a Hashset
 
 Methods
+```
 add(value) ? {boolean}
 addMany(arr) ? {Number}
 clear()
@@ -29,3 +30,4 @@ has(valueOrKey) ? {boolean}
 size() ? {number}
 toArray() ? {Array}
 upsert(value) ? {boolean}
+```
