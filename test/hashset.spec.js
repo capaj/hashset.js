@@ -1,5 +1,6 @@
 var should = require('chai').should();
 var Hashset = require('../hashset');
+require('./object-assign-polyfill');
 
 describe('Hashset', function() {
   var aSet;
@@ -24,7 +25,10 @@ describe('Hashset', function() {
   it('should allow to upsert value', function() {
     aSet.add(sampleObject);
     aSet.upsert({id: 1, prop: 'b'}).should.eql(true);
+    aSet.upsert({id: 2, prop: 'c'}).should.eql(false);
     aSet.getValue(1).prop.should.eql('b');
+    aSet.getValue(2).prop.should.eql('c');
+    aSet.getValue(1).should.equal(sampleObject);  //should still be the same object
   });
 
   it('should upsert all items in an array', function(){

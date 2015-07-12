@@ -57,13 +57,18 @@ Hashset.prototype = {
     this.length = 0;
   },
   /**
-   * @param value
-   * @returns {boolean} true when item was replaced, false when just added
+   * NOTE that this method requires ES6(ES2015)
+   * @param value is either added or updated using Object.assign
+   * @returns {boolean} true when item was updated, false when just added
    */
-  upsert: function addReplace(value) {
-    var r = this.delete(value);
-    this.add(value);
-    return r;
+  upsert: function upsert(value) {
+    var has = this.has(value);
+    if (has) {
+      Object.assign(this._hashObject[this.hashFn(value)], value);
+    } else {
+      this.add(value);
+    }
+    return has;
   },
   /**
    * @param {Array} arr

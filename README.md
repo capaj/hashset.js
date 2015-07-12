@@ -33,6 +33,8 @@ getValue(hash) returns {*}
 has(valueOrKey) returns {boolean}
 size() returns {number}
 toArray() returns {Array}
-upsert(value) returns {boolean}
+upsert(value) returns {boolean}	//requires Object.assign
 upsertArray(arr) returns {Number}
 ```
+
+If you want upserts in the ES5 environment, [polyfill Object.assign()](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Object/assign)
