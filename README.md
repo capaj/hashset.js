@@ -24,7 +24,7 @@ new Hashset(hashFunction) //returns new instance of a Hashset
 ### Methods
 ```
 add(value) returns {boolean}
-addMany(arr) returns {Number}
+addArray(arr) returns {Number}
 clear()
 delete(valueOrKey) returns {boolean}
 each(iteratorFunction, thisObjopt)
